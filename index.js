@@ -26,7 +26,7 @@ function validateForm(event) {
     let email = document.getElementById('email').value;
     let phoneNumber = document.getElementById('phone_number').value;
     let dateOfBirth = document.getElementById('dob').value;
-    let gender = document.getElementsByName('gender');
+    let gender = document.querySelector('input[name="gender"]:checked');
     let password = document.getElementById('password').value;
     let confirmPassword = document.getElementById('confirm_password').value;
     let agreement = document.getElementById('accept');
@@ -43,40 +43,33 @@ function validateForm(event) {
 
     let today = new Date();
     let selectedDate = new Date(dateOfBirth);
-    let eighteenYearsAgo = new Date(today);
-    eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
+    let age = selectedDate.getFullYear() - today.getFullYear();
+
+    if(selectedDate.getMonth < today.getMonth || selectedDate.getDate < today.getDate || selectedDate.getDay < today.getDate){
+        age--;
+    }
 
     let strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$/;
 
-    let selectedgender;
-
     // Validate first name
-    if (firstName === '') {
-        firstNameLabel.textContent = 'Please enter your first name'
+    if (!/^(?!.*(?:[.\s]{2}|[0-9]{2,}|[\W_]))[a-zA-Z\s.]{3,15}$/.test(firstName)) {
+        firstNameLabel.textContent = 'Please enter a valid name';
         document.getElementById('first_name').focus();
         document.getElementById('first-name-label').style.color = 'red';
-        document.getElementById('first_name').style.borderColor="red";
+        document.getElementById('first_name').style.borderColor = 'red';
         return false;
     }
 
     // Validate last name
-    if (lastName === '') {
+    if (!/^(?!.*(?:[.\s]{2}|[0-9]{2,}|[\W_]))[a-zA-Z\s.]{1,10}$/.test(lastName)) {
         lastNameLabel.textContent = "Please enter your last name"
         document.getElementById('last_name').focus();
         document.getElementById('last-name-label').style.color = 'red'
         document.getElementById('last_name').style.borderColor="red";
         return false;
     }
+ 
 
-    // Validate gender
-    let genderSelected = false;
-    for (let i = 0; i < gender.length; i++) {
-        if (gender[i].checked) {
-            genderSelected = true;
-            selectedgender = gender[i].value;
-            break;
-        }
-    }
 
     if(personalDetails.checked){
 
@@ -95,37 +88,30 @@ function validateForm(event) {
             return false;
         }
          // Validate date of birth
-        if (dateOfBirth === '') {
-            dateofBirthLabel.textContent = "Please enter your Date Of Birth";
+        if (dateOfBirth === '' || age < 18) {
+            dateofBirthLabel.textContent = "you must be 18 yrs old or above";
             document.getElementById('dob').focus();
             document.getElementById('dob').style.borderColor="red";
             document.getElementById('dateOfBirth').style.color = 'red';
             return false;
         }
 
-        if (selectedDate > eighteenYearsAgo) {
-            document.getElementById('dob').focus();
-            document.getElementById('dob').style.borderColor="red";
-            return false;
-        }
-
-        if (!genderSelected) {
+    
+        if (!gender) {
             swal({
                 title: "All Fields Should be filled",
                 text: "Please choose your gender",
                 icon: "warning",
                 button: "OK"
             });
-            gender[0].focus(); 
-            gender[0].style.borderColor="red";
             return false;
         }
 
     }
     
     // Validate address
-    if (address === '') {
-        addressLabel.textContent = "Please enter your Address";
+    if (!/^(?!.*(?:[.\s]{2}|[0-9]{2,}|[\W_]))[a-zA-Z\s.]{5,30}$/.test(address)) {
+        addressLabel.textContent = "Please enter a valid Address";
         document.getElementById('address').focus();
         document.getElementById('address').style.borderColor="red";
         document.getElementById('address-label').style.color = 'red';
