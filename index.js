@@ -7,11 +7,11 @@ function togglePersonalDetails(event){
 
     if (personalDetails.checked){
         console.log("checked")
+        dateofBirthLabel.textContent='Date of Birth ';
+        mailLabel.textContent='Email';
+    }else{
         dateofBirthLabel.textContent='Date of Birth (optional)';
         mailLabel.textContent='Email (optional)';
-    }else{
-        dateofBirthLabel.textContent='Date of Birth';
-        mailLabel.textContent='Email';
     }
     
 }
@@ -52,12 +52,6 @@ function validateForm(event) {
 
     // Validate first name
     if (firstName === '') {
-        swal({
-            title: "All Fields Should be filled",
-            text: "Please enter your first name",
-            icon: "warning",
-            button: "OK"
-        });
         firstNameLabel.textContent = 'Please enter your first name'
         document.getElementById('first_name').focus();
         document.getElementById('first-name-label').style.color = 'red';
@@ -67,12 +61,6 @@ function validateForm(event) {
 
     // Validate last name
     if (lastName === '') {
-        swal({
-            title: "All Fields Should be filled",
-            text: "Please enter your last name",
-            icon: "warning",
-            button: "OK"
-        });
         lastNameLabel.textContent = "Please enter your last name"
         document.getElementById('last_name').focus();
         document.getElementById('last-name-label').style.color = 'red'
@@ -235,6 +223,6 @@ function changedFields(){
     document.getElementById('mail').textContent="Email";
     document.getElementById('mail').style.color='black';
     document.getElementById('password-label').textContent="Password";
-    document.getElementById('password-label').style.color='red';
+    document.getElementById('password-label').style.color='black';
     document.getElementById('confirm-password-label').textContent="Confirm Password";
 }
