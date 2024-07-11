@@ -9,11 +9,18 @@ function togglePersonalDetails(event){
         console.log("checked")
         dateofBirthLabel.textContent='Date of Birth ';
         mailLabel.textContent='Email';
+        let optionals = document.getElementsByClassName('optional');
+        for(let i = 0 ; i < optionals.length ; i ++){
+            optionals[i].classList.remove('hidden');
+        }
     }else{
         dateofBirthLabel.textContent='Date of Birth (optional)';
         mailLabel.textContent='Email (optional)';
+        let optionals = document.getElementsByClassName('optional');
+        for(let i = 0 ; i < optionals.length ; i ++){
+            optionals[i].classList.add('hidden');
+        }
     }
-    
 }
 
 function validateForm(event) {
@@ -43,7 +50,7 @@ function validateForm(event) {
 
     let today = new Date();
     let selectedDate = new Date(dateOfBirth);
-    let age = selectedDate.getFullYear() - today.getFullYear();
+    let age = today.getFullYear() - selectedDate.getFullYear();
 
     if(selectedDate.getMonth < today.getMonth || selectedDate.getDate < today.getDate || selectedDate.getDay < today.getDate){
         age--;
@@ -72,7 +79,6 @@ function validateForm(event) {
 
 
     if(personalDetails.checked){
-
         // Validate email
         if (email === '') {
             mailLabel.textContent = "Please enter your email";
